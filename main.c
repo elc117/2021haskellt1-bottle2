@@ -18,6 +18,10 @@ int main(int argc, char *argv[])
 	printf("%s\n", string);
 	free(string);
 
+	float *floats = float_tuple_list_hs();
+	printf("%f %f\n", floats[0], floats[1]);
+	free(floats);
+
 	hs_exit();
 	return 0;
 }
