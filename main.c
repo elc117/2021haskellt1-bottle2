@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 
 	float *floats = float_tuple_list_hs();
 	printf("%f %f\n", floats[0], floats[1]);
+	printf("Soma: %f\n", sum_floats_hs(2, floats));
 	free(floats);
 
 	hs_exit();
