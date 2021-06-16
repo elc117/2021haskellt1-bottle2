@@ -5,7 +5,7 @@
 
 all:sshc
 
-sshc main.o:Main.hi Main.o Main_stub.h
+sshc main.o:Main.hi Main.o Main_stub.h main.c
 	stack ghc -- --make -no-hs-main -optc-O main.c Main -o sshc
 
 Main.hi Main.o Main_stub.h:Main.hs
