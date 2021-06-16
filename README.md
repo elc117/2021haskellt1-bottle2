@@ -4,6 +4,25 @@ Look at [this](https://www.kongregate.com/games/polycube/spirostudio)! Oh wait.
 Flash is dead. RIP. Anywho, SSHC is an attempt to reimplemented it... or part of
 it.
 
+## Requirements
+
+I'm relying on stack to get things done... dunno how GHC handles C compilation,
+for me it's just magic.
+
+## Compiling
+
+Run:
+
+    make all
+
+To cleanup the directory, run:
+
+    make clean
+
+To run GHCI, prefer:
+
+    make repl
+
 ## Kongregate comments detailing SpiroStudio's inner working
 
 Developer response to AceFrahm on Dec. 1, 2013:
