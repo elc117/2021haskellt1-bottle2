@@ -13,3 +13,6 @@ Main.hi Main.o Main_stub.h:Main.hs
 
 clean:
 	rm -f Main.hi Main.o Main_stub.h sshc main.o
+
+repl:
+	stack ghci Main.hs --ghc-options -DGHCI
