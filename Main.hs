@@ -2,12 +2,28 @@ import Text.Printf
 import Data.List
 
 
+-- Geometry
+
 radians :: Float -> Float
 radians = (* pi) . (/ 180)
 
 offset :: Float -> Float -> [(Float, Float)] -> [(Float, Float)]
 offset offset_x offset_y = map (\(x, y) -> (x + offset_x, y + offset_y))
 
+sumPoint :: (Float, Float) -> (Float, Float) -> (Float, Float)
+sumPoint (x1,y1) (x2,y2) = (x1 + x2, y1 + y2)
+
+sumPoints :: [(Float, Float)] -> [(Float, Float)] -> [(Float, Float)]
+sumPoints = zipWith (sumPoint)
+
+subtotalsPoints :: [[(Float, Float)]] -> [[(Float, Float)]]
+subtotalsPoints [[]] = [[]]
+subtotalsPoints [points] = [points]
+subtotalsPoints (points1:points2:pointsT) = points1 : (subtotalsPoints (summedPoints:pointsT))
+  where summedPoints = sumPoints points1 points2
+
+
+-- SVG generation
 
 writeSvgBody :: Float -> Float -> [String] -> String
 writeSvgBody height width children =
@@ -21,10 +37,12 @@ writePoints :: [(Float, Float)] -> String
 writePoints = intercalate " " . map (\(x,y) -> printf "%.3f,%.3f" x y)
 
 
-calcCircle :: Float -> [(Float, Float)]
-calcCircle radius =
-  let points_x = (map ((*radius) . sin . radians) [0..360])
-      points_y = (map ((*radius) . cos . radians) [0..360])
+-- Spiro stuff
+
+calcCircle :: Float -> Float -> [(Float, Float)]
+calcCircle radius speed =
+  let points_x = (map ((*radius) . sin . (*speed) . radians) [0..360])
+      points_y = (map ((*radius) . cos . (*speed) . radians) [0..360])
   in zip points_x points_y 
 
 main :: IO ()
@@ -32,7 +50,9 @@ main = do
   putStr $
     writeSvgBody width height [
       writePolyline "fill:none;stroke:black;stroke-width:3" (
-        offset (width / 2) (height / 2) $ calcCircle 50
+        offset (width / 2) (height / 2) $ (
+          subtotalsPoints [calcCircle 50 10, calcCircle 20 (-2), calcCircle 30 7] !! 2
+        )
       )
     ]
   where width  = 500
