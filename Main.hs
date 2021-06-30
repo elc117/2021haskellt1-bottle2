@@ -48,17 +48,40 @@ calcCircle radius speed =
       points_y = (map ((*radius) . cos . (*speed) . radians) [0..360])
   in zip points_x points_y 
 
-main :: IO ()
+main :: IO () -- Le monkey parsing (spare my soul)
 main = do
-  putStr $
-    writeSvgBody width height [
+  width         <- getLine
+  height        <- getLine
+  stick1_length <- getLine
+  stick1_speed  <- getLine
+  stick2_length <- getLine
+  stick2_speed  <- getLine
+  stick3_length <- getLine
+  stick3_speed  <- getLine
+  stick4_length <- getLine
+  stick4_speed  <- getLine
+  stick5_length <- getLine
+  stick5_speed  <- getLine
+
+  let width_f         = read width         :: Float
+      height_f        = read height        :: Float
+      stick1_length_f = read stick1_length :: Float
+      stick1_speed_f  = read stick1_speed  :: Float
+      stick2_length_f = read stick2_length :: Float
+      stick2_speed_f  = read stick2_speed  :: Float
+      stick3_length_f = read stick3_length :: Float
+      stick3_speed_f  = read stick3_speed  :: Float
+      stick4_length_f = read stick4_length :: Float
+      stick4_speed_f  = read stick4_speed  :: Float
+      stick5_length_f = read stick5_length :: Float
+      stick5_speed_f  = read stick5_speed  :: Float
+      polylines       = offsets ((width_f) / 2) ((height_f) / 2) $ subtotalsPoints [
+        calcCircle (stick1_length_f) (stick1_speed_f)
+        , calcCircle (stick2_length_f) (stick2_speed_f)
+        , calcCircle (stick3_length_f) (stick3_speed_f)
+        , calcCircle (stick4_length_f) (stick4_speed_f)
+        , calcCircle (stick5_length_f) (stick5_speed_f)]
+  putStrLn $
+    writeSvgBody (width_f) (height_f) [
       writePolyline "fill:none;stroke:black;stroke-width:1" (polylines !! 4)
     ]
-  where width  = 500
-        height = 500
-        polylines = offsets (width / 2) (height / 2) $ subtotalsPoints [
-            calcCircle 84 8
-            , calcCircle 36 18
-            , calcCircle 48 18
-            , calcCircle 60 (-2)
-            , calcCircle 12 13]
