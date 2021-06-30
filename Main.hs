@@ -10,6 +10,9 @@ radians = (* pi) . (/ 180)
 offset :: Float -> Float -> [(Float, Float)] -> [(Float, Float)]
 offset offset_x offset_y = map (\(x, y) -> (x + offset_x, y + offset_y))
 
+offsets :: Float -> Float -> [[(Float, Float)]] -> [[(Float, Float)]]
+offsets offset_x offset_y = map (offset offset_x offset_y)
+
 sumPoint :: (Float, Float) -> (Float, Float) -> (Float, Float)
 sumPoint (x1,y1) (x2,y2) = (x1 + x2, y1 + y2)
 
@@ -49,11 +52,13 @@ main :: IO ()
 main = do
   putStr $
     writeSvgBody width height [
-      writePolyline "fill:none;stroke:black;stroke-width:3" (
-        offset (width / 2) (height / 2) $ (
-          subtotalsPoints [calcCircle 50 10, calcCircle 20 (-2), calcCircle 30 7] !! 2
-        )
-      )
+      writePolyline "fill:none;stroke:black;stroke-width:1" (polylines !! 4)
     ]
   where width  = 500
         height = 500
+        polylines = offsets (width / 2) (height / 2) $ subtotalsPoints [
+            calcCircle 84 8
+            , calcCircle 36 18
+            , calcCircle 48 18
+            , calcCircle 60 (-2)
+            , calcCircle 12 13]
