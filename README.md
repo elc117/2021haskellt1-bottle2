@@ -4,24 +4,42 @@ Look at [this](https://www.kongregate.com/games/polycube/spirostudio)! Oh wait.
 Flash is dead. RIP. Anywho, SSHC is an attempt to reimplemented it... or part of
 it.
 
-## Requirements
+## What is this
 
-I'm relying on stack to get things done... dunno how GHC handles C compilation,
-for me it's just magic.
+This is a little program inspired on SpiroStudio that generates spirographs.
 
-## Compiling
+## Running
 
-Run:
+Consider we have the following file:
 
-    make all
+    $ cat spiro.txt
+    500.0
+    500.0
+    68.0
+    17.0
+    51.0
+    17.0
+    68.0
+    -3.0
+    34.0
+    -3.0
+    17.0
+    17.0
 
-To cleanup the directory, run:
+The first and the second line specifies the width and the height of the SVG.
+Five sticks are used to draw the spirographs, so each two pairs of lines that
+follows specifies the length and the speed of each stick. All lengths and speeds
+of all five sticks must be specified.
 
-    make clean
+Next, to generate a spirograph you run:
 
-To run GHCI, prefer:
+    $ stack runghc Main.hs < spiro.txt > spiro.svg
 
-    make repl
+Main.hs reads the content of spiro.txt, which output is saved on spiro.svg
+
+You could use ImageMagick to convert SVG to PNG:
+
+    $ convert spiro.svg spiro.png
 
 ## Kongregate comments detailing SpiroStudio's inner working
 
