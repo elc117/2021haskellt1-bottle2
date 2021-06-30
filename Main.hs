@@ -6,15 +6,18 @@ import Data.List
 
 radians :: Float -> Float
 radians = (* pi) . (/ 180)
+-- sin and cos don't use degrees :(
 
 offset :: Float -> Float -> [(Float, Float)] -> [(Float, Float)]
 offset offset_x offset_y = map (\(x, y) -> (x + offset_x, y + offset_y))
+-- makes points relative to center rather than the top left corner
 
 offsets :: Float -> Float -> [[(Float, Float)]] -> [[(Float, Float)]]
 offsets offset_x offset_y = map (offset offset_x offset_y)
 
 sumPoint :: (Float, Float) -> (Float, Float) -> (Float, Float)
 sumPoint (x1,y1) (x2,y2) = (x1 + x2, y1 + y2)
+-- the spirograph is like the sum of the graph of different circles
 
 sumPoints :: [(Float, Float)] -> [(Float, Float)] -> [(Float, Float)]
 sumPoints = zipWith (sumPoint)
@@ -24,6 +27,7 @@ subtotalsPoints [[]] = [[]]
 subtotalsPoints [points] = [points]
 subtotalsPoints (points1:points2:pointsT) = points1 : (subtotalsPoints (summedPoints:pointsT))
   where summedPoints = sumPoints points1 points2
+-- gets the position of each stick across time
 
 
 -- SVG generation
