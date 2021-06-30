@@ -8,6 +8,8 @@ it.
 
 This is a little program inspired on SpiroStudio that generates spirographs.
 
+![simple mandala](./spiro.png)
+
 ## Running
 
 Consider we have the following file:
